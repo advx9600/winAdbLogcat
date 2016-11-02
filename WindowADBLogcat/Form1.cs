@@ -71,6 +71,7 @@ namespace WindowADBLogcat
             }
             else
             {
+                comboBoxDevices.DataSource = new String[]{"没有设备"};
                 return;
             }
 

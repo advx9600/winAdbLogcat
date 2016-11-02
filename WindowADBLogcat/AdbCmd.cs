@@ -113,6 +113,8 @@ namespace WindowADBLogcat
                 {
                     if (devices[i] == null || devices[i].Trim().Length == 0) continue;
 
+                    if (devices[i].Contains("daemon")) continue;
+
                     String[] item = devices[i].Split('\t');
                     if (item != null && item[0].Trim().Length > 0)
                     {
@@ -178,20 +180,23 @@ namespace WindowADBLogcat
             p.Start();
             p.BeginOutputReadLine();
 
-            if (logCatProcess != null && !logCatProcess.HasExited)
-            {
-                logCatProcess.Kill();
-            }
+            killLogcatProcess();
+
             logCatProcess = p;
         }
 
-        public void Close()
+        private void killLogcatProcess()
         {
-            if (logCatProcess != null)
+            if (logCatProcess != null && !logCatProcess.HasExited)
             {
                 logCatProcess.Kill();
                 logCatProcess = null;
             }
         }
+
+        public void Close()
+        {
+            killLogcatProcess();
+        }        
     }
 }
