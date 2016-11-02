@@ -178,7 +178,10 @@ namespace WindowADBLogcat
             p.Start();
             p.BeginOutputReadLine();
 
-            if (logCatProcess != null) logCatProcess.Kill();
+            if (logCatProcess != null && !logCatProcess.HasExited)
+            {
+                logCatProcess.Kill();
+            }
             logCatProcess = p;
         }
 
