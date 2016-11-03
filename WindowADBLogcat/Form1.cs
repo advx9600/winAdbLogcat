@@ -140,8 +140,7 @@ namespace WindowADBLogcat
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            txtLogcat.Width = Width - 30;
-            txtLogcat.Height = Height - 110;
+            
         }
 
         private void button5_Click(object sender, EventArgs e)

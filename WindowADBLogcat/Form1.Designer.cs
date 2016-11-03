@@ -98,10 +98,13 @@
             // 
             // txtLogcat
             // 
-            this.txtLogcat.Location = new System.Drawing.Point(8, 61);
+            this.txtLogcat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLogcat.Location = new System.Drawing.Point(7, 48);
             this.txtLogcat.Name = "txtLogcat";
             this.txtLogcat.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txtLogcat.Size = new System.Drawing.Size(1032, 239);
+            this.txtLogcat.Size = new System.Drawing.Size(1032, 253);
             this.txtLogcat.TabIndex = 7;
             this.txtLogcat.Text = "";
             // 
@@ -109,7 +112,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1046, 306);
+            this.ClientSize = new System.Drawing.Size(1046, 313);
             this.Controls.Add(this.txtLogcat);
             this.Controls.Add(this.comboBoxDebugLevel);
             this.Controls.Add(this.comboBoxDevices);
