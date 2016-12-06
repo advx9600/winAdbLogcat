@@ -29,6 +29,7 @@ namespace WindowADBLogcat
             data = System.Text.Encoding.GetEncoding("utf-8").GetString(bytes);
 
             originData = data;
+
             // 小米的log格式
             {
                 if (data.StartsWith("D/") || data.StartsWith("I/") || data.StartsWith("W/") || data.StartsWith("V/") || data.StartsWith("E/") || data.StartsWith("F/"))
@@ -43,14 +44,22 @@ namespace WindowADBLogcat
 
             // 模拟器的log格式
             {
-                string[] strs = data.Split(' ');
 
-                CreationDate = strs[0] + " " + strs[1];
-                Type = strs[6].ToCharArray()[0];
-                Tag = strs[7].Replace(":", "");
+                try
                 {
-                    String removeDateStr = data.Substring(20);
-                    Message = removeDateStr.Substring(removeDateStr.Split(':')[0].Length + 2);
+                    string[] strs = data.Split(' ');
+
+                    CreationDate = strs[0] + " " + strs[1];
+                    Type = strs[6].ToCharArray()[0];
+                    Tag = strs[7].Replace(":", "");
+                    {
+                        String removeDateStr = data.Substring(20);
+                        Message = removeDateStr.Substring(removeDateStr.Split(':')[0].Length + 2);
+                    }
+                }
+                catch (Exception e)
+                {
+                    
                 }
             }
         }

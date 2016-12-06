@@ -71,7 +71,7 @@ namespace WindowADBLogcat
             }
             else
             {
-                comboBoxDevices.DataSource = new String[]{"没有设备"};
+                comboBoxDevices.DataSource = new String[] { "没有设备" };
                 return;
             }
 
@@ -84,7 +84,11 @@ namespace WindowADBLogcat
 
         }
 
-        /* 回调函数 */
+        private int mReMainNum;
+        /* 回调函数 
+         *  aa | bb 显示包含aa或bb的数据
+         *  aaaa n 3为 包含aaa接下来的3行显示
+         */
         public void receive_data(Object data, Boolean isAddList = true)
         {
             LogCatLog log = (LogCatLog)data;
@@ -102,13 +106,46 @@ namespace WindowADBLogcat
 
             if (searchData != null)
             {
+
+                mReMainNum--;
+
                 // 过滤字符串
-                if (!String.IsNullOrEmpty(searchData.filterStr))
+                if (mReMainNum > 0 || !String.IsNullOrEmpty(searchData.filterStr))
                 {
-                    if (!log.Tag.Contains(searchData.filterStr) && !log.Message.Contains(searchData.filterStr))
+                    String filteStr = searchData.filterStr.Trim();
+                    if (filteStr.Contains(" | ")) //正则表达
+                    {
+                        String[] strs = filteStr.Split(new char[3] { ' ', '|', ' ' });
+                        bool isReturn = true;
+                        for (int i = 0; i < strs.Length; i++)
+                        {
+                            if (String.IsNullOrEmpty(strs[i].Trim())) continue;
+
+                            if (log.Tag.Contains(strs[i]) || log.Message.Contains(strs[i]))
+                            {
+                                isReturn = false;
+                                break;
+                            }
+                        }
+                        if (isReturn) return;
+                    }
+                    else if (filteStr.Contains(" n ")) // aaaa n 3为 包含aaa接下来的3行显示
+                    { // 包含空格
+                        String[] strs = filteStr.Split(new char[3] { ' ', 'n', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (!log.Tag.Contains(strs[0]) && !log.Message.Contains(strs[0]))
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            if (strs.Length > 1)
+                                mReMainNum = Int32.Parse(strs[1]);
+                        }
+                    }
+                    else if (!log.Tag.Contains(searchData.filterStr) && !log.Message.Contains(searchData.filterStr))
                     {
                         return;
-                    }                    
+                    }
 
                 }
 
@@ -140,7 +177,7 @@ namespace WindowADBLogcat
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -181,8 +218,29 @@ namespace WindowADBLogcat
             listLogs.Clear();
         }
 
+        private Timer timerTxtDelay;
+
         private void textBoxFilter_TextChanged(object sender, EventArgs e)
         {
+            if (timerTxtDelay != null)
+            {
+                timerTxtDelay.Stop();
+                timerTxtDelay = null;
+            }
+
+            timerTxtDelay = new Timer();
+            timerTxtDelay.Interval = 700;
+            timerTxtDelay.Tick += new EventHandler(timer_Tick);
+            timerTxtDelay.Start();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (timerTxtDelay != null)
+            {
+                timerTxtDelay.Stop();
+                timerTxtDelay = null;
+            }
             ResetLogcat();
         }
 
