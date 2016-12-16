@@ -84,7 +84,7 @@ namespace WindowADBLogcat
 
         }
 
-        private int mReMainNum;
+        private int mReMainNum = 0;
         /* 回调函数 
          *  aa | bb 显示包含aa或bb的数据
          *  aaaa n 3为 包含aaa接下来的3行显示
@@ -93,9 +93,9 @@ namespace WindowADBLogcat
         {
             LogCatLog log = (LogCatLog)data;
 
-            if (searchData != null && searchData.isStop && isAddList) return;
+            if (searchData != null && searchData.isStop && isAddList) return; // 按下了stop按键
 
-            if (isAddList)
+            if (isAddList) // 保存暂时的log信息
             {
                 if (isAddList) listLogs.Add(log);
                 if (listLogs.Count > 2000)
@@ -110,18 +110,16 @@ namespace WindowADBLogcat
                 mReMainNum--;
 
                 // 过滤字符串
-                if (mReMainNum > 0 || !String.IsNullOrEmpty(searchData.filterStr))
+                if (!String.IsNullOrEmpty(searchData.filterStr))
                 {
                     String filteStr = searchData.filterStr.Trim();
                     if (filteStr.Contains(" | ")) //正则表达
                     {
-                        String[] strs = filteStr.Split(new char[3] { ' ', '|', ' ' });
+                        String[] strs = filteStr.Split(new char[3] { ' ', '|', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         bool isReturn = true;
                         for (int i = 0; i < strs.Length; i++)
                         {
-                            if (String.IsNullOrEmpty(strs[i].Trim())) continue;
-
-                            if (log.Tag.Contains(strs[i]) || log.Message.Contains(strs[i]))
+                            if (log.contains(strs[i]))
                             {
                                 isReturn = false;
                                 break;
@@ -132,17 +130,18 @@ namespace WindowADBLogcat
                     else if (filteStr.Contains(" n ")) // aaaa n 3为 包含aaa接下来的3行显示
                     { // 包含空格
                         String[] strs = filteStr.Split(new char[3] { ' ', 'n', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (!log.Tag.Contains(strs[0]) && !log.Message.Contains(strs[0]))
+                        if (!log.contains(strs[0]))
                         {
-                            return;
+                            if (mReMainNum < 0)
+                                return;
                         }
                         else
                         {
                             if (strs.Length > 1)
-                                mReMainNum = Int32.Parse(strs[1]);
+                                mReMainNum = Int32.Parse(strs[strs.Length - 1]);
                         }
                     }
-                    else if (!log.Tag.Contains(searchData.filterStr) && !log.Message.Contains(searchData.filterStr))
+                    else if (!log.contains(searchData.filterStr))
                     {
                         return;
                     }

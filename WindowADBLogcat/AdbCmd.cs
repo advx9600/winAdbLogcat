@@ -24,9 +24,9 @@ namespace WindowADBLogcat
             // D - debug
             // I - info
             // V - verboseb
-            // 编码转换
-            byte[] bytes = System.Text.Encoding.Default.GetBytes(data);
-            data = System.Text.Encoding.GetEncoding("utf-8").GetString(bytes);
+            // 编码转换            
+            byte[] bytes = System.Text.Encoding.Default.GetBytes(data);            
+            data = System.Text.Encoding.GetEncoding("UTF-8").GetString(bytes);            
 
             originData = data;
 
@@ -59,9 +59,10 @@ namespace WindowADBLogcat
                 }
                 catch (Exception e)
                 {
-                    
+
                 }
             }
+
         }
 
         public String Tag;
@@ -89,6 +90,26 @@ namespace WindowADBLogcat
                 default:
                     return Color.Gray;
             }
+        }
+
+        public bool contains(String msg)
+        {
+            if (!String.IsNullOrEmpty(msg))
+            {
+                if (!String.IsNullOrEmpty(Tag) && Tag.Contains(msg))
+                {
+                    return true;
+                }
+                if (!String.IsNullOrEmpty(Message) && Message.Contains(msg))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+            return false;
         }
     }
 
@@ -206,6 +227,6 @@ namespace WindowADBLogcat
         public void Close()
         {
             killLogcatProcess();
-        }        
+        }
     }
 }
