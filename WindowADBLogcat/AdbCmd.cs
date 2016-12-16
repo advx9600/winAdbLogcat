@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,8 @@ namespace WindowADBLogcat
             // I - info
             // V - verboseb
             // 编码转换            
-            byte[] bytes = System.Text.Encoding.Default.GetBytes(data);            
-            data = System.Text.Encoding.GetEncoding("UTF-8").GetString(bytes);            
+            //byte[] bytes = System.Text.Encoding.Default.GetBytes(data);            
+            //data = System.Text.Encoding.GetEncoding("UTF-8").GetString(bytes);
 
             originData = data;
 
@@ -180,8 +181,7 @@ namespace WindowADBLogcat
         }
         public void logcat(Form1 form)
         {
-            clearLogcat(form);
-
+            clearLogcat(form);            
             Process p = new Process();
             p.StartInfo.FileName = CMD;           //设定程序名  
             p.StartInfo.Arguments = "-s " + form.getLogcatParams() + " logcat";    //设定程式执行參數             
@@ -189,7 +189,8 @@ namespace WindowADBLogcat
             p.StartInfo.RedirectStandardInput = true;   //重定向标准输入  
             p.StartInfo.RedirectStandardOutput = true;  //重定向标准输出  
             p.StartInfo.RedirectStandardError = true;   //重定向错误输出  
-            p.StartInfo.CreateNoWindow = true;          //设置不显示窗口              
+            p.StartInfo.CreateNoWindow = true;          //设置不显示窗口  
+            p.StartInfo.StandardOutputEncoding = Encoding.UTF8; // 一定要事先设置编码
 
             p.OutputDataReceived += (sender, outputLine) =>
             {
