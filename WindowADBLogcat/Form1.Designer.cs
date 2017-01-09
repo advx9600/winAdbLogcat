@@ -107,6 +107,7 @@
             this.txtLogcat.Size = new System.Drawing.Size(1032, 253);
             this.txtLogcat.TabIndex = 7;
             this.txtLogcat.Text = "";
+            this.txtLogcat.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLogcat_KeyDown);
             // 
             // Form1
             // 

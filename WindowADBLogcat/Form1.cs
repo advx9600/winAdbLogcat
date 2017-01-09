@@ -266,5 +266,14 @@ namespace WindowADBLogcat
                 buttonSwitch.Text = "Stop";
             }
         }
+
+        private void txtLogcat_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.F)
+            {
+                FormSearch form = new FormSearch(this.txtLogcat);
+                form.ShowDialog();
+            }
+        }
     }
 }
