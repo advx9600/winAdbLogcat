@@ -36,6 +36,7 @@
             this.comboBoxDevices = new System.Windows.Forms.ComboBox();
             this.comboBoxDebugLevel = new System.Windows.Forms.ComboBox();
             this.txtLogcat = new System.Windows.Forms.RichTextBox();
+            this.textBoxKeyConvert = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonReset
@@ -109,11 +110,22 @@
             this.txtLogcat.Text = "";
             this.txtLogcat.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLogcat_KeyDown);
             // 
+            // textBoxKeyConvert
+            // 
+            this.textBoxKeyConvert.Location = new System.Drawing.Point(831, 12);
+            this.textBoxKeyConvert.MaxLength = 10;
+            this.textBoxKeyConvert.Name = "textBoxKeyConvert";
+            this.textBoxKeyConvert.Size = new System.Drawing.Size(100, 21);
+            this.textBoxKeyConvert.TabIndex = 8;
+            this.textBoxKeyConvert.Visible = false;
+            this.textBoxKeyConvert.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxKeyConvert_KeyDown);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1046, 313);
+            this.Controls.Add(this.textBoxKeyConvert);
             this.Controls.Add(this.txtLogcat);
             this.Controls.Add(this.comboBoxDebugLevel);
             this.Controls.Add(this.comboBoxDevices);
@@ -141,6 +153,7 @@
         private System.Windows.Forms.ComboBox comboBoxDevices;
         private System.Windows.Forms.ComboBox comboBoxDebugLevel;
         private System.Windows.Forms.RichTextBox txtLogcat;
+        private System.Windows.Forms.TextBox textBoxKeyConvert;
     }
 }
 

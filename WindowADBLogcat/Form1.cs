@@ -306,6 +306,31 @@ namespace WindowADBLogcat
                 FormSearch form = new FormSearch(this.txtLogcat);
                 form.ShowDialog();
             }
+            else
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.F1:
+                        showOrHideKeyConvert();
+                        break;
+                }
+            }
+        }
+
+        private void showOrHideKeyConvert()
+        {
+            textBoxKeyConvert.Visible = !textBoxKeyConvert.Visible;
+        }
+
+        private void textBoxKeyConvert_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(textBoxKeyConvert.Text))
+            {
+                String txt = textBoxKeyConvert.Text;
+                textBoxKeyConvert.Text = txt.Substring(1);
+            }                        
+
+            adb.onKeyDown(e.KeyCode);
         }
     }
 }

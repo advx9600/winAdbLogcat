@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WindowADBLogcat
 {
@@ -120,6 +121,7 @@ namespace WindowADBLogcat
     {
         private String CMD = "adb";
         private Process logCatProcess;
+        private String curDev;
 
         public List<Device> adbDevices()
         {
@@ -172,7 +174,7 @@ namespace WindowADBLogcat
         {
             Process p = new Process();
             p.StartInfo.FileName = CMD;           //设定程序名  
-            p.StartInfo.Arguments = "-s " + form.getLogcatParams() + "logcat -c";    //设定程式执行參數             
+            p.StartInfo.Arguments = "-s " + form.getLogcatParams() + " logcat -c";    //设定程式执行參數             
             p.StartInfo.UseShellExecute = false;        //关闭Shell的使用            
             p.StartInfo.CreateNoWindow = true;          //设置不显示窗口   
             p.Start();
@@ -181,7 +183,8 @@ namespace WindowADBLogcat
         }
         public void logcat(Form1 form)
         {
-            clearLogcat(form);            
+            clearLogcat(form);
+            curDev = form.getLogcatParams();
             Process p = new Process();
             p.StartInfo.FileName = CMD;           //设定程序名  
             p.StartInfo.Arguments = "-s " + form.getLogcatParams() + " logcat";    //设定程式执行參數             
@@ -228,6 +231,181 @@ namespace WindowADBLogcat
         public void Close()
         {
             killLogcatProcess();
+        }
+
+        public void onKeyDown(Keys keyCode)
+        {
+            int key = ConvertKeyCode(keyCode);
+            Debug.WriteLine(keyCode);
+
+
+            if (key > 0)
+            {
+                Process p = new Process();
+                p.StartInfo.FileName = CMD;           //设定程序名  
+                p.StartInfo.Arguments = "-s " + curDev + " shell input keyevent " + key;    //设定程式执行參數             
+                p.StartInfo.UseShellExecute = false;        //关闭Shell的使用            
+                p.StartInfo.CreateNoWindow = true;          //设置不显示窗口   
+                p.Start();
+            }
+        }
+
+        public static int ConvertKeyCode(Keys keyCode)
+        {
+            int key = 0;
+            switch (keyCode)
+            {
+                case Keys.Apps:
+                case Keys.F2:
+                    key = 1;
+                    break;
+                case Keys.Home:
+                    key = 3;
+                    break;
+                case Keys.Escape:
+                    key = 4;
+                    break;
+                case Keys.D0:
+                case Keys.NumPad0:
+                    key = 7;
+                    break;
+                case Keys.D1:
+                case Keys.NumPad1:
+                    key = 8;
+                    break;
+                case Keys.D2:
+                case Keys.NumPad2:
+                    key = 9;
+                    break;
+                case Keys.D3:
+                case Keys.NumPad3:
+                    key = 10;
+                    break;
+                case Keys.D4:
+                case Keys.NumPad4:
+                    key = 11;
+                    break;
+                case Keys.D5:
+                case Keys.NumPad5:
+                    key = 12;
+                    break;
+                case Keys.D6:
+                case Keys.NumPad6:
+                    key = 13;
+                    break;
+                case Keys.D7:
+                case Keys.NumPad7:
+                    key = 14;
+                    break;
+                case Keys.D8:
+                case Keys.NumPad8:
+                    key = 15;
+                    break;
+                case Keys.D9:
+                case Keys.NumPad9:
+                    key = 16;
+                    break;
+                case Keys.Up:
+                    key = 19;
+                    break;
+                case Keys.Down:
+                    key = 20;
+                    break;
+                case Keys.Left:
+                    key = 21;
+                    break;
+                case Keys.Right:
+                    key = 22;
+                    break;
+                case Keys.Enter:
+                    key = 23;
+                    break;
+                case Keys.A:
+                    key = 29;
+                    break;                
+                case Keys.B:
+                    key = 30;
+                    break;
+                case Keys.C:
+                    key = 31;
+                    break;
+                case Keys.D:
+                    key = 32;
+                    break;
+                case Keys.E:
+                    key = 33;
+                    break;
+                case Keys.F:
+                    key = 34;
+                    break;
+                case Keys.G:
+                    key = 35;
+                    break;
+                case Keys.H:
+                    key = 36;
+                    break;
+                case Keys.I:
+                    key = 37;
+                    break;
+                case Keys.J:
+                    key = 38;
+                    break;
+                case Keys.K:
+                    key = 39;
+                    break;
+                case Keys.L:
+                    key = 40;
+                    break;
+                case Keys.M:
+                    key = 41;
+                    break;
+                case Keys.N:
+                    key = 42;
+                    break;
+                case Keys.O:
+                    key = 43;
+                    break;
+                case Keys.P:
+                    key = 44;
+                    break;
+                case Keys.Q:
+                    key = 45;
+                    break;
+                case Keys.R:
+                    key = 46;
+                    break;
+                case Keys.S:
+                    key = 47;
+                    break;
+                case Keys.T:
+                    key = 48;
+                    break;
+                case Keys.U:
+                    key = 49;
+                    break;
+                case Keys.V:
+                    key = 50;
+                    break;
+                case Keys.W:
+                    key = 51;
+                    break;
+                case Keys.X:
+                    key = 52;
+                    break;
+                case Keys.Y:
+                    key = 53;
+                    break;
+                case Keys.Z:
+                    key = 54;
+                    break;
+                case Keys.Tab:
+                    key = 61;
+                    break;
+                case Keys.Space:
+                    key = 62;
+                    break;
+            }
+            return key;
         }
     }
 }
