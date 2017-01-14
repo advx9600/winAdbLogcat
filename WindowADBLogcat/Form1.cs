@@ -104,6 +104,38 @@ namespace WindowADBLogcat
                 }
             }
 
+            if (!String.IsNullOrEmpty(log.Tag))
+            {
+                String tag = log.Tag;
+                List<String> list = new List<string>();
+                //list.Add("CaOptCtrl");
+                //list.Add("DEBUG   (");
+                //list.Add("DVBService(");
+                //list.Add("ConnectivityService(");
+                //list.Add("libhi_common(");
+                //list.Add("DVBStackImp(");
+                //list.Add("hidvbjava(");
+                //list.Add("MessageParser(");
+                //list.Add("FCDvb   (");
+                //list.Add("hidvb   (");
+                //list.Add("UpgradeS(");
+                //list.Add("DMRService(");
+                //list.Add("CityInitialization(");
+                //list.Add("BookedService(");
+                //list.Add("        (");
+                //list.Add("");
+                //list.Add("");
+                //list.Add("");
+                //list.Add("");
+                //list.Add("");
+                for (int i = 0; i < list.Count(); i++)
+                {
+                    if (!String.IsNullOrEmpty(list[i]) && log.Tag.StartsWith(list[i]))
+                    {
+                        return;
+                    }
+                }
+            }
             if (searchData != null)
             {
 
